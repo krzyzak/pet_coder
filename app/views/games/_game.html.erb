@@ -1,0 +1,59 @@
+<div class="relative z-10 flex">
+  <div class="w-3/4 h-screen flex items-center justify-center">
+    <div class="relative">
+      <div class="grid grid-cols-10 gap-0 border-2 border-black bg-white/10 relative">
+        <% (0...10).each do |row| %>
+          <% (0...10).each do |col| %>
+            <div class="w-20 h-20 border border-black/30"></div>
+          <% end %>
+        <% end %>
+
+        <%= render collection: Current.level.walls, partial: "walls/wall" %>
+        <%= render Current.pet, **Current.pet.position.to_h %>
+        <%= render Current.target %>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-1/4 h-screen bg-gray-200 border-l-2 border-gray-400 p-4">
+    <div class="bg-white h-full rounded p-4">
+      <h3 class="text-lg font-bold mb-2">Ruby Code Editor:</h3>
+      <p class="text-sm text-gray-600 mb-2">Examples: left, right, up, down</p>
+      <p class="text-sm text-gray-600 mb-4">5.times { right }, 3.times { up }</p>
+      <%= form_with url: execute_game_path do |f| %>
+        <%= f.text_area :code, class: "w-full h-64 p-2 border border-gray-300 rounded font-mono text-sm resize-none" %>
+
+        <div class="mt-4 space-y-2">
+          <div class="flex space-x-2">
+            <%= f.submit "Run", class: "bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600" %>
+            <button class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">CLEAR</button>
+          </div>
+          <div class="flex space-x-2">
+            <%= link_to "Pet", change_pet_game_path, data: { turbo_method: :put }, class: "bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
+            <%= link_to "Target", change_target_game_path, data: { turbo_method: :put }, class: "bg-yellow-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
+            <%= link_to "Treat", change_target_game_path, data: { turbo_method: :put }, class: "bg-cyan-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="absolute top-4 left-4 z-20 text-white text-shadow-lg">
+  <div class="flex items-center space-x-4">
+    <span class="text-2xl font-bold">Points: <%= Current.game.points %></span>
+    <div class="flex items-center space-x-1">
+      <span class="text-2xl font-bold">Lives:</span>
+      <% Current.game.lives.times do %>
+        <%= image_tag "media/heart.png", class: "w-8 h-8" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Direction controls -->
+<div class="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
+  <div class="text-white text-xl font-bold text-shadow-lg">
+    ← left    ↑ up    ↓ down    → right
+  </div>
+</div>

@@ -2,6 +2,7 @@
 
 class Executor
   delegate :pet, to: :game
+
   attr_reader :game
 
   def initialize(game:)
@@ -11,13 +12,13 @@ class Executor
   def execute(command)
     case command
     when :left
-      pet.move_left
+      pet.move_left(game.walls)
     when :right
-      pet.move_right
+      pet.move_right(game.walls)
     when :up
-      pet.move_up
+      pet.move_up(game.walls)
     when :down
-      pet.move_down
+      pet.move_down(game.walls)
     end
   end
 end

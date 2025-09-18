@@ -2,6 +2,7 @@
 
 class Game < ApplicationRecord
   LIVES = 3
+  GRID_SIZE = 10
 
   belongs_to :player
   belongs_to :pet
@@ -10,6 +11,8 @@ class Game < ApplicationRecord
   belongs_to :level
 
   before_validation :set_defaults
+
+  delegate :walls, to: :level
 
   def set_defaults
     self.level ||= Level.first
