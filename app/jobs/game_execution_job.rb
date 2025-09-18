@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GameExecutionJob < ApplicationJob
   def perform(game, commands, pet_position)
     command, *rest = commands
@@ -6,7 +8,6 @@ class GameExecutionJob < ApplicationJob
 
     executor.execute(command)
 
-    puts "Enqueue #{rest}"
-    GameExecutionJob.set(wait: 0.3.second).perform_later(game, rest, game.pet.position) unless rest.empty?
+    GameExecutionJob.set(wait: 0.3.seconds).perform_later(game, rest, game.pet.position) unless rest.empty?
   end
 end

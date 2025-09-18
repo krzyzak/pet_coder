@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Executor
   delegate :pet, to: :game
   attr_reader :game

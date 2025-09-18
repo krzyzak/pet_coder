@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Point = Struct.new(:x, :y, keyword_init: true) do
   def cast(values)
     self.class.new(x: values["x"], y: values["y"])

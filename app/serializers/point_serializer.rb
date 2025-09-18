@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PointSerializer < ActiveJob::Serializers::ObjectSerializer
   def klass
     Point

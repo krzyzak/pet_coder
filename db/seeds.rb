@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Game.delete_all
 Player.delete_all
 Pet.delete_all

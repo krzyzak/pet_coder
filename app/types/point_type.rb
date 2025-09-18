@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PointType < ActiveRecord::Type::Value
   def cast(value)
     Point.new(x: value["x"], y: value["y"])

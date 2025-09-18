@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Parser
   class Context
     attr_reader :commands
@@ -32,9 +34,7 @@ class Parser
     context.commands
   end
 
-  def commands
-    context.commands
-  end
+  delegate :commands, to: :context
 
   def clear!
     @context = Context.new
