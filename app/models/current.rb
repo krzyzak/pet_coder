@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class Current < ActiveSupport::CurrentAttributes
-  attribute :player, :game
+  attribute :level, :game
 
-  delegate :level, :pet, :target, to: :game
+  delegate :pet, :target, :player, to: :game
+
+  def level
+    super || game.level
+  end
 end
