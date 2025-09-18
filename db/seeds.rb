@@ -5,6 +5,9 @@ Player.delete_all
 Pet.delete_all
 Target.delete_all
 Treat.delete_all
+Level.delete_all
+
+ApplicationRecord.connection.execute("DELETE FROM sqlite_sequence")
 
 # Level 0 - just go up
 Level.create!(
@@ -78,6 +81,8 @@ Level.create!(
     { x: 8, y: 8 },
   ],
 )
+
+Current.level = Level.first
 
 dog = Pet.create!(name: "Dog", image_name: "dog.png")
 Pet.create!(name: "Cat", image_name: "cat.png")
