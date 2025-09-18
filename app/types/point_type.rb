@@ -10,6 +10,7 @@ class PointType < ActiveRecord::Type::Value
   end
 
   def deserialize(original_value)
+    original_value = JSON.parse(original_value) if original_value.is_a?(String)
     Point.new(x: original_value["x"], y: original_value["y"])
   end
 
