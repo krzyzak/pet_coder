@@ -3,5 +3,5 @@
 class Target < ApplicationRecord
   include Cycleable
 
-  attribute :position, PointType.new, default: -> { Current.level.target }
+  attribute :position, :point, default: -> { Current.level.target }
 end

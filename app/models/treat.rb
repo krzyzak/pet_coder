@@ -3,5 +3,5 @@
 class Treat < ApplicationRecord
   include Cycleable
 
-  attribute :position, PointType.new
+  attribute :position, :point
 end
