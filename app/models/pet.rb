@@ -3,7 +3,7 @@
 class Pet < ApplicationRecord
   include Cycleable, Movable
 
-  attribute :position, PointType.new, default: -> { Level.first.pet }
+  attribute :position, PointType.new, default: -> { Current.level.pet }
 
   after_commit :update_pet
 
