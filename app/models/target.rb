@@ -1,3 +1,3 @@
 class Target < ApplicationRecord
-  attribute :position, :point, default: -> { Level.first.target }
+  attribute :position, PointType.new, default: -> { Level.first.target }
 end
