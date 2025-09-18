@@ -6,9 +6,77 @@ Pet.delete_all
 Target.delete_all
 Treat.delete_all
 
+# Level 0 - just go up
 Level.create!(
   pet: { x: 1, y: 3 },
   target: { x: 1, y: 2 },
+)
+
+# Level 1 - Same, but add a treat
+Level.create!(
+  pet: { x: 1, y: 3 },
+  target: { x: 1, y: 2 },
+  treats: [
+    { x: 0, y: 3 },
+  ],
+)
+
+# Level 2 - watch out the holes
+Level.create!(
+  pet: { x: 1, y: 3 },
+  target: { x: 1, y: 1 },
+  # holes: [
+  #   { x: 1, y: 2 },
+  # ],
+  treats: [
+    { x: 0, y: 3 },
+  ],
+)
+# Level 3 - spiral
+Level.create!(
+  pet: { x: 5, y: 5 },
+  target: { x: 3, y: 6 },
+  walls: [
+    { x: 4, y: 5 },
+    { x: 4, y: 6 },
+    { x: 5, y: 6 },
+    { x: 6, y: 6 },
+
+    { x: 6, y: 5 },
+    { x: 6, y: 4 },
+    { x: 6, y: 3 },
+
+    { x: 5, y: 3 },
+    { x: 4, y: 3 },
+    { x: 3, y: 3 },
+    { x: 2, y: 3 },
+    { x: 1, y: 3 },
+
+    { x: 1, y: 4 },
+    { x: 1, y: 5 },
+    { x: 1, y: 6 },
+
+    { x: 3, y: 5 },
+
+    { x: 1, y: 7 },
+    { x: 2, y: 7 },
+    { x: 3, y: 7 },
+    { x: 4, y: 7 },
+    { x: 5, y: 7 },
+    { x: 6, y: 7 },
+  ],
+)
+
+# Level 4 - loops
+Level.create!(
+  pet: { x: 0, y: 0 },
+  target: { x: 9, y: 9 },
+  walls: [
+    { x: 0, y: 9 },
+    { x: 9, y: 0 },
+
+    { x: 8, y: 8 },
+  ],
 )
 
 dog = Pet.create!(name: "Dog", image_name: "dog.png")
