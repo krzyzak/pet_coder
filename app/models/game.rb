@@ -14,6 +14,13 @@ class Game < ApplicationRecord
 
   delegate :walls, to: :level
 
+  def treats
+    @treats ||= level.treats.map do |position|
+      treat.dup.tap do |treat|
+        treat.position = position
+      end
+    end
+  end
   def set_defaults
     self.level ||= Level.first
     self.lives ||= LIVES

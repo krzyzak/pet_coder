@@ -8,6 +8,7 @@
           <% end %>
         <% end %>
 
+        <%= render collection: Current.game.treats, partial: "treats/treat" %>
         <%= render collection: Current.level.walls, partial: "walls/wall" %>
         <%= render Current.pet, **Current.pet.position.to_h %>
         <%= render Current.target %>
