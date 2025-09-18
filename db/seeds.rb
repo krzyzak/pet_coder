@@ -10,8 +10,16 @@ Level.create!(
 )
 
 dog = Pet.create!(name: "Dog", image_name: "dog.png")
+Pet.create!(name: "Cat", image_name: "cat.png")
+Pet.create!(name: "Turtle", image_name: "turtle.png")
+
 dog_ice_cream = Target.create!(name: "Dogs' ice cream", image_name: "dog_ice_cream.png")
+Target.create!(name: "Apple", image_name: "apple.png")
+Target.create!(name: "Bowl", image_name: "cat_bowl.png")
+
 bone = Treat.create!(name: "bone", image_name: "bone.png", points: 10)
+Treat.create!(name: "Fish", image_name: "fish.png", points: 10)
+Treat.create!(name: "Salad", image_name: "salad.png", points: 10)
 
 Player.create!(name: "Marysia", pet: dog, treat: bone, target: dog_ice_cream)
 

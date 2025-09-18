@@ -34,11 +34,9 @@
                 <button class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">CLEAR</button>
               </div>
               <div class="flex space-x-2">
-                <button class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm">Player</button>
-                <button class="bg-yellow-500 text-black px-6 py-2 rounded hover:bg-yellow-600 text-sm">Target</button>
-              </div>
-              <div>
-                <button class="bg-cyan-500 text-black px-6 py-2 rounded hover:bg-cyan-600 text-sm">Treat</button>
+                <%= link_to "Pet", change_pet_game_path, data: { turbo_method: :put }, class: "bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
+                <%= link_to "Target", change_target_game_path, data: { turbo_method: :put }, class: "bg-yellow-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
+                <%= link_to "Treat", change_target_game_path, data: { turbo_method: :put }, class: "bg-cyan-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
               </div>
             </div>
           <% end %>

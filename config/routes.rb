@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   # root "posts#index"
   resource :game, only: [] do
     post :execute
+    put :change_pet
+    put :change_treat
+    put :change_target
   end
 
   root "games#show"

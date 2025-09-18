@@ -1,4 +1,6 @@
 class Pet < ApplicationRecord
+  include Cycleable
+
   attribute :position, PointType.new, default: -> { Level.first.pet }
 
   after_commit :update_pet
@@ -24,7 +26,9 @@ class Pet < ApplicationRecord
     save
   end
 
+  private
+
   def update_pet
-    broadcast_replace_later partial: "pets/pet", locals: position.to_h
+    broadcast_replace_later partial: "pets/pet", locals: position.to_h, target: :pet
   end
 end
