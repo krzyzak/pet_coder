@@ -14,7 +14,7 @@ class Game < ApplicationRecord
   before_validation :set_defaults
   broadcasts_refreshes
 
-  delegate :walls, :treats, to: :level
+  delegate :walls, :treats, :holes, to: :level
 
   def at_position(position)
     game_objects.find { it.position == position }
@@ -35,7 +35,7 @@ class Game < ApplicationRecord
   private
 
   def game_objects
-    @game_objects ||= [*walls, *treats]
+    @game_objects ||= [*walls, *treats, *holes]
   end
 
   def level_up!(bonus_points)
