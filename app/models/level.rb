@@ -5,10 +5,10 @@ class Level < ApplicationRecord
   attribute :target, :point
 
   def treats
-    super.map { PointType.new.cast(it) }
+    super.map { TreatObject.new(position: PointType.new.cast(it)) }
   end
 
   def walls
-    super.map { PointType.new.cast(it) }
+    super.map { WallObject.new(position: PointType.new.cast(it)) }
   end
 end

@@ -14,15 +14,7 @@ class Game < ApplicationRecord
   before_validation :set_defaults
   broadcasts_refreshes
 
-  delegate :walls, to: :level
-
-  def treats
-    @treats ||= level.treats.map do |position|
-      treat.dup.tap do |treat|
-        treat.position = position
-      end
-    end
-  end
+  delegate :walls, :treats, to: :level
 
   def after_move_checks!
     consume_treat!
