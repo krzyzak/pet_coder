@@ -3,6 +3,8 @@
 require "open3"
 
 class Parser
+  DEFAULT_TIMEOUT = 1 # second
+
   def parse(input)
     result = execute_in_sandbox(input)
 
@@ -15,32 +17,34 @@ class Parser
 
   private
 
-  DOCKER_CMD = [
-    "docker",
-    "run",
-    "--rm",
-    "-i",
-    "--network=none",
-    "--memory=32m",
-    "--cpus=0.5",
-    "--read-only",
-    "--tmpfs=/tmp:size=10m",
-    "--user=nobody:nobody",
-    "--cap-drop=ALL",
-    "--security-opt=no-new-privileges",
-    "ruby:3.4-alpine",
-    "timeout",
-    "-k",
-    "0.1s",
-    "0.1s",
-    "ruby",
-  ].freeze
+  def docker_cmd(timeout)
+    [
+      "docker",
+      "run",
+      "--rm",
+      "-i",
+      "--network=none",
+      "--memory=32m",
+      "--cpus=0.5",
+      "--read-only",
+      "--tmpfs=/tmp:size=10m",
+      "--user=nobody:nobody",
+      "--cap-drop=ALL",
+      "--security-opt=no-new-privileges",
+      "ruby:3.4-alpine",
+      "timeout",
+      "-k",
+      "#{timeout}s",
+      "#{timeout}s",
+      "ruby",
+    ].freeze
+  end
 
-  def execute_in_sandbox(input, timeout: 0.1)
+  def execute_in_sandbox(input, timeout: DEFAULT_TIMEOUT)
     sandboxed_script = create_sandbox_script(input)
 
     begin
-      stdout, stderr, status = Open3.capture3(*DOCKER_CMD, stdin_data: sandboxed_script)
+      stdout, stderr, status = Open3.capture3(*docker_cmd(timeout), stdin_data: sandboxed_script)
 
       {
         stdout: stdout,
