@@ -8,10 +8,13 @@ class GamesController < ApplicationController
 
   def execute
     parser = Parser.new
-    parser.parse(params[:code])
-
     executor = Executor.new(game: Current.game)
-    @turbo_actions = executor.execute(parser.commands)
+    result = parser.parse(params[:code])
+
+    if result.success?
+      @turbo_actions = executor.execute(result.data[:commands])
+      # TODO: add error handling
+    end
   end
 
   def change_pet
