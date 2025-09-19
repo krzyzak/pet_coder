@@ -11,4 +11,8 @@ class Level < ApplicationRecord
   def walls
     super.map { WallObject.new(position: PointType.new.cast(it)) }
   end
+
+  def holes
+    super.map { HoleObject.new(position: PointType.new.cast(it)) }
+  end
 end

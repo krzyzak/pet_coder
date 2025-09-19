@@ -23,6 +23,9 @@ class Executor
       case item = game.at_position(@new_position)
       when WallObject
         next
+      when HoleObject
+        move_pet
+        break
       when TreatObject
         bonus_points += game.treat.points
         perform(:delayed_remove, { target: item }, increase_index: false)

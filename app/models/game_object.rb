@@ -7,6 +7,10 @@ class GameObject
     @position = position
   end
 
+  def kind
+    self.class.name.gsub("Object", "").underscore
+  end
+
   def to_key
     [position.x, position.y]
   end

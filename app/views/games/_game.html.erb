@@ -9,7 +9,8 @@
         <% end %>
 
         <%= render collection: Current.game.treats, partial: "treats/treat", locals: { item: Current.game.treat } %>
-        <%= render collection: Current.level.walls, partial: "walls/wall" %>
+        <%= render collection: Current.level.walls, partial: "game_objects/game_object", as: :game_object %>
+        <%= render collection: Current.level.holes, partial: "game_objects/game_object", as: :game_object %>
         <%= render Current.pet, level: Current.level %>
         <%= render Current.target, level: Current.level %>
       </div>

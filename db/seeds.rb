@@ -28,9 +28,9 @@ Level.create!(
 Level.create!(
   pet: { x: 1, y: 3 },
   target: { x: 1, y: 1 },
-  # holes: [
-  #   { x: 1, y: 2 },
-  # ],
+  holes: [
+    { x: 1, y: 2 },
+  ],
   treats: [
     { x: 0, y: 3 },
   ],
