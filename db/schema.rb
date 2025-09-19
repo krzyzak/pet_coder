@@ -70,18 +70,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_19_184916) do
     t.index ["treat_id"], name: "index_players_on_treat_id"
   end
 
-  create_table "states", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "game_id", null: false
-    t.json "pet", null: false
-    t.integer "points", default: 0, null: false
-    t.json "target", null: false
-    t.json "treats", default: [], null: false
-    t.datetime "updated_at", null: false
-    t.json "walls", default: [], null: false
-    t.index ["game_id"], name: "index_states_on_game_id"
-  end
-
   create_table "targets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "image_name", null: false
@@ -109,5 +97,4 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_19_184916) do
   add_foreign_key "players", "pets"
   add_foreign_key "players", "targets"
   add_foreign_key "players", "treats"
-  add_foreign_key "states", "games"
 end
