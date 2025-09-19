@@ -14,23 +14,15 @@ class Game < ApplicationRecord
   before_validation :set_defaults
   broadcasts_refreshes
 
-  delegate :walls, to: :level
+  delegate :walls, :treats, to: :level
 
-  def treats
-    @treats ||= level.treats.map do |position|
-      treat.dup.tap do |treat|
-        treat.position = position
-      end
-    end
+  def at_position(position)
+    game_objects.find { it.position == position }
   end
 
-  def after_move_checks!
-    consume_treat!
-  end
-
-  def after_commands_check!
-    if pet.position == target.position
-      level_up!
+  def check!(position, bonus_points: 0)
+    if position == level.target
+      level_up!(bonus_points)
     else
       restart_level!
     end
@@ -42,8 +34,12 @@ class Game < ApplicationRecord
 
   private
 
-  def level_up!
-    update(level_id: level_id + 1, points: points + POINTS_PER_LEVEL)
+  def game_objects
+    @game_objects ||= [*walls, *treats]
+  end
+
+  def level_up!(bonus_points)
+    update(level_id: level_id + 1, points: points + bonus_points + POINTS_PER_LEVEL)
   end
 
   def restart_level!
@@ -53,12 +49,5 @@ class Game < ApplicationRecord
   def set_defaults
     self.level ||= Level.first
     self.lives ||= LIVES
-  end
-
-  def consume_treat!
-    treat = treats.find { it.position == pet.position }
-    return unless treat
-
-    update(points: points + treat.points)
   end
 end

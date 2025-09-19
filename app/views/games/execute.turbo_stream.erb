@@ -1,0 +1,7 @@
+<% @turbo_actions.each do |action, params = nil| %>
+  <% if params %>
+    <%= turbo_stream.public_send(action, params) %>
+  <% else %>
+    <%= turbo_stream.public_send(action) %>
+  <% end %>
+<% end %>

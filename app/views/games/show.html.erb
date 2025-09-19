@@ -3,10 +3,7 @@
 
 <div class="min-h-screen relative overflow-hidden">
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('<%= asset_path('media/background.png') %>');"></div>
-
   <%= turbo_frame_tag Current.game do %>
     <%= render Current.game %>
   <% end %>
 </div>
-
-<%= console %>

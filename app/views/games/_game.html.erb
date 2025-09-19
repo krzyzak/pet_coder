@@ -8,10 +8,10 @@
           <% end %>
         <% end %>
 
-        <%= render collection: Current.game.treats, partial: "treats/treat" %>
+        <%= render collection: Current.game.treats, partial: "treats/treat", locals: { item: Current.game.treat } %>
         <%= render collection: Current.level.walls, partial: "walls/wall" %>
-        <%= render Current.pet, **Current.pet.position.to_h %>
-        <%= render Current.target %>
+        <%= render Current.pet, level: Current.level %>
+        <%= render Current.target, level: Current.level %>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
           <div class="flex space-x-2">
             <%= link_to "Pet", change_pet_game_path, data: { turbo_method: :put }, class: "bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
             <%= link_to "Target", change_target_game_path, data: { turbo_method: :put }, class: "bg-yellow-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
-            <%= link_to "Treat", change_target_game_path, data: { turbo_method: :put }, class: "bg-cyan-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
+            <%= link_to "Treat", change_treat_game_path, data: { turbo_method: :put }, class: "bg-cyan-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
           </div>
         </div>
       <% end %>
@@ -42,7 +42,7 @@
 
 <div class="absolute top-4 left-4 z-20 text-white text-shadow-lg">
   <div class="flex items-center space-x-4">
-    <span class="text-2xl font-bold">Points: <%= Current.game.points %></span>
+    <span class="text-2xl font-bold" id="points">Points: <%= Current.game.points %></span>
     <div class="flex items-center space-x-1">
       <span class="text-2xl font-bold">Lives:</span>
       <% Current.game.lives.times do %>
