@@ -32,7 +32,7 @@ class GamesController < ApplicationController
     next_target = Target.next_for(Current.target)
     Current.game.update!(target: next_target)
 
-    render turbo_stream: turbo_stream.replace(:target, partial: "targets/target", locals: { target: Current.target })
+    render turbo_stream: turbo_stream.replace(:target_image, partial: "targets/target_image", locals: { target: next_target })
   end
 
   private
