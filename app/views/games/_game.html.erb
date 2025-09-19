@@ -1,5 +1,19 @@
-<div class="relative z-10 flex">
-  <div class="w-3/4 h-screen flex items-center justify-center">
+<div class="relative z-10 flex h-full">
+  <div class="w-3/4 h-full flex flex-col items-center justify-center">
+    <div class="mb-6 space-y-4">
+      <div class="flex items-center justify-center space-x-8 text-white text-shadow-lg">
+        <span class="text-2xl font-bold" id="points">Points: <%= Current.game.points %></span>
+        <div class="flex items-center space-x-2">
+          <span class="text-2xl font-bold">Lives:</span>
+          <div class="flex space-x-1">
+            <% Current.game.lives.times do %>
+              <%= image_tag "media/heart.png", class: "w-8 h-8" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="relative">
       <div class="grid grid-cols-10 gap-0 border-2 border-black bg-white/10 relative">
         <% (0...10).each do |row| %>
@@ -17,45 +31,32 @@
     </div>
   </div>
 
-  <div class="w-1/4 h-screen bg-gray-200 border-l-2 border-gray-400 p-4">
-    <div class="bg-white h-full rounded p-4">
-      <h3 class="text-lg font-bold mb-2">Ruby Code Editor:</h3>
-      <p class="text-sm text-gray-600 mb-2">Examples: left, right, up, down</p>
-      <p class="text-sm text-gray-600 mb-4">5.times { right }, 3.times { up }</p>
-      <%= form_with url: execute_game_path do |f| %>
-        <%= f.text_area :code, class: "w-full h-64 p-2 border border-gray-300 rounded font-mono text-sm resize-none" %>
+  <div class="w-1/4 h-full bg-gray-200 border-l-2 border-gray-400 p-6">
+    <div class="bg-white h-full rounded-lg p-6 flex flex-col">
+      <div class="mb-6">
+        <h3 class="text-lg font-bold mb-3">Ruby Code Editor:</h3>
+        <div class="text-sm text-gray-600 space-y-1 mb-4">
+          <p>Examples: left, right, up, down</p>
+          <p>5.times { right }, 3.times { up }</p>
+        </div>
+      </div>
 
-        <div class="mt-4 space-y-2">
-          <div class="flex space-x-2">
-            <%= f.submit "Run", class: "bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600" %>
-            <button class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">CLEAR</button>
+      <%= form_with url: execute_game_path, class: "flex flex-col h-full" do |f| %>
+        <%= f.text_area :code, class: "w-full flex-1 p-3 border border-gray-300 rounded-lg font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+
+        <div class="mt-6 space-y-4">
+          <div class="flex gap-3">
+            <%= f.submit "Run", class: "flex-1 bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors font-medium" %>
+            <button type="button" class="flex-1 bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition-colors font-medium">CLEAR</button>
           </div>
-          <div class="flex space-x-2">
-            <%= link_to "Pet", change_pet_game_path, data: { turbo_method: :put }, class: "bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
-            <%= link_to "Target", change_target_game_path, data: { turbo_method: :put }, class: "bg-yellow-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
-            <%= link_to "Treat", change_treat_game_path, data: { turbo_method: :put }, class: "bg-cyan-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
+
+          <div class="grid grid-cols-3 gap-2">
+            <%= link_to "Pet", change_pet_game_path, data: { turbo_method: :put }, class: "text-center bg-green-500 text-white py-2 px-3 rounded-lg hover:bg-green-600 transition-colors text-sm font-medium" %>
+            <%= link_to "Target", change_target_game_path, data: { turbo_method: :put }, class: "text-center bg-yellow-500 text-white py-2 px-3 rounded-lg hover:bg-yellow-600 transition-colors text-sm font-medium" %>
+            <%= link_to "Treat", change_treat_game_path, data: { turbo_method: :put }, class: "text-center bg-cyan-500 text-white py-2 px-3 rounded-lg hover:bg-cyan-600 transition-colors text-sm font-medium" %>
           </div>
         </div>
       <% end %>
     </div>
-  </div>
-</div>
-
-<div class="absolute top-4 left-4 z-20 text-white text-shadow-lg">
-  <div class="flex items-center space-x-4">
-    <span class="text-2xl font-bold" id="points">Points: <%= Current.game.points %></span>
-    <div class="flex items-center space-x-1">
-      <span class="text-2xl font-bold">Lives:</span>
-      <% Current.game.lives.times do %>
-        <%= image_tag "media/heart.png", class: "w-8 h-8" %>
-      <% end %>
-    </div>
-  </div>
-</div>
-
-<!-- Direction controls -->
-<div class="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
-  <div class="text-white text-xl font-bold text-shadow-lg">
-    ← left    ↑ up    ↓ down    → right
   </div>
 </div>

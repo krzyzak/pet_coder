@@ -1,7 +1,7 @@
 <%= turbo_stream_from Current.pet %>
 <%= turbo_stream_from Current.game %>
 
-<div class="min-h-screen relative overflow-hidden">
+<div class="h-screen w-full max-w-380 mx-auto relative overflow-hidden">
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('<%= asset_path('media/background.png') %>');"></div>
   <%= turbo_frame_tag Current.game do %>
     <%= render Current.game %>
