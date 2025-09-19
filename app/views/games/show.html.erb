@@ -5,5 +5,7 @@
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('<%= asset_path('media/background.png') %>');"></div>
   <%= turbo_frame_tag Current.game do %>
     <%= render Current.game %>
+
+    <%= render "game_over_modal" if Current.game.game_over? %>
   <% end %>
 </div>

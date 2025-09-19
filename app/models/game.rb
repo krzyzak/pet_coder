@@ -35,6 +35,10 @@ class Game < ApplicationRecord
     update(points: 0, lives: LIVES, level_id: 1)
   end
 
+  def game_over?
+    lives.zero?
+  end
+
   private
 
   def game_objects
