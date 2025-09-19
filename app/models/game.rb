@@ -16,6 +16,9 @@ class Game < ApplicationRecord
 
   delegate :walls, :treats, :holes, to: :level
 
+  validates :lives, numericality: { in: 0..LIVES }
+  validates :points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
   def at_position(position)
     game_objects.find { it.position == position }
   end
