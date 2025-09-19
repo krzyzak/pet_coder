@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_19_103741) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_19_184916) do
+  create_table "command_logs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "game_id", null: false
+    t.text "input"
+    t.integer "level_id", null: false
+    t.text "output"
+    t.boolean "success", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_command_logs_on_game_id"
+    t.index ["level_id"], name: "index_command_logs_on_level_id"
+  end
+
   create_table "games", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "level_id", null: false
@@ -87,6 +99,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_19_103741) do
     t.index ["image_name"], name: "index_treats_on_image_name", unique: true
   end
 
+  add_foreign_key "command_logs", "games"
+  add_foreign_key "command_logs", "levels"
   add_foreign_key "games", "levels"
   add_foreign_key "games", "pets"
   add_foreign_key "games", "players"

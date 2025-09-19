@@ -8,6 +8,8 @@ class Parser
   def parse(input)
     result = execute_in_sandbox(input)
 
+    CommandLog.create(input: input, output: result[:stdout], success: result[:success], game: Current.game, level: Current.game.level)
+
     if result[:success]
       Result.success(commands: parse_commands_from_output(result[:stdout]))
     else
