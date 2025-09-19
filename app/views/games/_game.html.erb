@@ -8,10 +8,10 @@
           <% end %>
         <% end %>
 
-        <%= render collection: Current.game.treats, partial: "treats/treat" %>
+        <%= render collection: Current.game.treats, partial: "treats/treat", locals: { item: Current.game.treat } %>
         <%= render collection: Current.level.walls, partial: "walls/wall" %>
-        <%= render Current.pet, **Current.pet.position.to_h %>
-        <%= render Current.target %>
+        <%= render Current.pet, level: Current.level %>
+        <%= render Current.target, level: Current.level %>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
           <div class="flex space-x-2">
             <%= link_to "Pet", change_pet_game_path, data: { turbo_method: :put }, class: "bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
             <%= link_to "Target", change_target_game_path, data: { turbo_method: :put }, class: "bg-yellow-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
-            <%= link_to "Treat", change_target_game_path, data: { turbo_method: :put }, class: "bg-cyan-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
+            <%= link_to "Treat", change_treat_game_path, data: { turbo_method: :put }, class: "bg-cyan-500 text-white px-6 py-2 rounded hover:bg-green-600 text-sm" %>
           </div>
         </div>
       <% end %>
