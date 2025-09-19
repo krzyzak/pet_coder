@@ -21,3 +21,5 @@ Layout/LineLength:
 Style/MethodCallWithArgsParentheses:
   Enabled: false
 
+Style/ClassMethodsDefinitions:
+  Enabled: false
