@@ -3,6 +3,8 @@
 require "open3"
 
 class Parser
+  DEFAULT_TIMEOUT = 1 # second
+
   def parse(input)
     result = execute_in_sandbox(input)
 
@@ -38,7 +40,7 @@ class Parser
     ].freeze
   end
 
-  def execute_in_sandbox(input, timeout: 0.1)
+  def execute_in_sandbox(input, timeout: DEFAULT_TIMEOUT)
     sandboxed_script = create_sandbox_script(input)
 
     begin
