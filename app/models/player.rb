@@ -5,7 +5,11 @@ class Player < ApplicationRecord
   belongs_to :treat
   belongs_to :target
 
+  has_many :games, dependent: :destroy
+
   after_create :create_game
+
+  validates :name, presence: true
 
   private
 

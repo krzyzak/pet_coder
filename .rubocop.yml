@@ -3,6 +3,7 @@ plugins:
   - rubocop-performance
   - rubocop-rspec
   - rubocop-rspec_rails
+  - rubocop-factory_bot
 
 inherit_gem:
   rubocop-shopify: rubocop.yml
@@ -20,6 +21,14 @@ Layout/LineLength:
 
 Style/MethodCallWithArgsParentheses:
   Enabled: false
-
 Style/ClassMethodsDefinitions:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/LetSetup:
   Enabled: false

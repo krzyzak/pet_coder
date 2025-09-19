@@ -3,5 +3,6 @@
 class Treat < ApplicationRecord
   include Cycleable
 
-  attribute :position, :point
+  validates :name, presence: true
+  validates :image_name, presence: true
 end
