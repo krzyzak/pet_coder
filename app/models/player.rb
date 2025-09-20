@@ -14,6 +14,8 @@ class Player < ApplicationRecord
 
   validates :name, presence: true
 
+  scope :leaderboard, -> { select("players.*, (SELECT MAX(points) FROM games WHERE games.player_id = players.id) AS max_score, (SELECT COUNT(*) FROM games WHERE games.player_id = players.id) AS games_count").order(max_score: :desc, games_count: :desc) }
+
   def create_game!
     Game.create!(
       player: self,

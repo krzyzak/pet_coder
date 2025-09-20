@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   scope "(:family_id)" do
     resources :players do
       put :change, on: :collection
+      get :leaderboard, on: :collection
     end
 
     resource :game, only: [] do
