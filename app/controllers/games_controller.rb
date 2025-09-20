@@ -10,7 +10,7 @@ class GamesController < ApplicationController
   def reset
     Current.player.create_game!
 
-    render turbo_stream: turbo_stream.turbo_redirect(url: root_path)
+    render turbo_stream: turbo_stream.turbo_redirect(url: root_path(Current.family.hashid))
   end
 
   def execute

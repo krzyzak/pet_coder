@@ -2,6 +2,7 @@
 
 Game.delete_all
 Player.delete_all
+Family.delete_all
 Pet.delete_all
 Target.delete_all
 Treat.delete_all

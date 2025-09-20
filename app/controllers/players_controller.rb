@@ -9,7 +9,7 @@ class PlayersController < ApplicationController
     if @player.save
       cookies[:player_id] = @player.hashid
 
-      redirect_to root_path, notice: 'Player was successfully created.'
+      redirect_to root_path(Current.family.hashid), notice: 'Player was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -19,7 +19,7 @@ class PlayersController < ApplicationController
     player = Current.family.players.find(params[:id])
     cookies[:player_id] = player.hashid
 
-    redirect_to root_path
+    redirect_to root_path(Current.family.hashid)
   end
 
   private

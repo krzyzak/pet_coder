@@ -13,19 +13,19 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  scope ":family_id" do
+  scope "(:family_id)" do
     resources :players do
       put :change, on: :collection
     end
-  end
 
-  resource :game, only: [] do
-    put :reset
-    post :execute
-    put :change_pet
-    put :change_treat
-    put :change_target
-  end
+    resource :game, only: [] do
+      put :reset
+      post :execute
+      put :change_pet
+      put :change_treat
+      put :change_target
+    end
 
-  root "games#show"
+    root "games#show"
+  end
 end
