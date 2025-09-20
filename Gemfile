@@ -32,6 +32,7 @@ gem "solid_cable"
 
 gem "sentry-ruby"
 gem "sentry-rails"
+gem "hashid-rails"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false

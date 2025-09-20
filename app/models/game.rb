@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Game < ApplicationRecord
+  include Hashid::Rails
+
   LIVES = 3
   GRID_SIZE = 10
   POINTS_PER_LEVEL = 100

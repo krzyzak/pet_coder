@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Player < ApplicationRecord
+  include Hashid::Rails
+
   belongs_to :pet
   belongs_to :treat
   belongs_to :target
