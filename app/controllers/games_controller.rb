@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
+  before_action :set_player
   before_action :set_game
 
   def show
   end
 
   def reset
-    Current.game.reset!
+    Current.player.create_game!
 
-    render turbo_stream: turbo_stream.turbo_redirect(url: root_path)
+    render turbo_stream: turbo_stream.turbo_redirect(url: root_path(Current.family.hashid))
   end
 
   def execute
@@ -46,7 +47,13 @@ class GamesController < ApplicationController
 
   private
 
+  def set_player
+    redirect_to new_player_path(family_id: Current.family) unless cookies[:player_id]
+
+    Current.player = Current.family.players.find(cookies[:player_id])
+  end
+
   def set_game
-    Current.game = Game.first
+    Current.game = Current.player.games.last
   end
 end
