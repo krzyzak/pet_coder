@@ -1,0 +1,97 @@
+<div class="h-screen w-full max-w-380 mx-auto relative overflow-hidden">
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('<%= asset_path('media/background.png') %>');"></div>
+  
+  <div class="relative z-10 h-full flex flex-col">
+    <div class="p-6 overflow-y-auto flex-1">
+      <div class="mb-6">
+        <h1 class="text-3xl font-bold text-white text-shadow-lg text-center">🏆 Leaderboard</h1>
+      </div>
+
+      <div class="bg-white/95 rounded-lg p-4 shadow-lg">
+        <% if @players.any? %>
+          <div class="space-y-3">
+            <% @players.each_with_index do |player, index| %>
+              <div class="bg-white border border-gray-200 rounded-lg p-4 <%= index == 0 ? 'ring-2 ring-yellow-500 bg-yellow-50' : '' %>">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-4">
+                    <!-- Rank -->
+                    <div class="flex-shrink-0">
+                      <% if index == 0 %>
+                        <div class="w-10 h-10 bg-yellow-500 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                          👑
+                        </div>
+                      <% elsif index == 1 %>
+                        <div class="w-10 h-10 bg-gray-400 text-white rounded-full flex items-center justify-center font-bold">
+                          2
+                        </div>
+                      <% elsif index == 2 %>
+                        <div class="w-10 h-10 bg-amber-600 text-white rounded-full flex items-center justify-center font-bold">
+                          3
+                        </div>
+                      <% else %>
+                        <div class="w-10 h-10 bg-gray-300 text-gray-700 rounded-full flex items-center justify-center font-bold">
+                          <%= index + 1 %>
+                        </div>
+                      <% end %>
+                    </div>
+                    
+                    <!-- Player Info -->
+                    <div class="flex-1">
+                      <h3 class="text-lg font-bold text-gray-800"><%= player.name %></h3>
+                      <div class="flex items-center space-x-4 text-sm text-gray-600">
+                        <span class="flex items-center space-x-1">
+                          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          <span><%= player.max_score %> pts</span>
+                        </span>
+                        <span class="flex items-center space-x-1">
+                          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                          </svg>
+                          <span><%= player.games_count %> games</span>
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <!-- Player Visuals -->
+                    <div class="flex items-center space-x-2">
+                      <div class="w-8 h-8 flex items-center justify-center">
+                        <%= image_tag "media/players/#{player.pet.image_name}", class: "w-6 h-6 object-contain" %>
+                      </div>
+                      <div class="w-8 h-8 flex items-center justify-center">
+                        <%= image_tag "media/treats/#{player.treat.image_name}", class: "w-6 h-6 object-contain" %>
+                      </div>
+                      <div class="w-8 h-8 flex items-center justify-center">
+                        <%= image_tag "media/targets/#{player.target.image_name}", class: "w-6 h-6 object-contain" %>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Edit Button -->
+                  <div class="flex-shrink-0 ml-4">
+                    <%= link_to "Edit", edit_player_path(Current.family, player), 
+                        class: "bg-blue-500 text-white py-2 px-3 rounded hover:bg-blue-600 transition-colors text-sm font-medium" %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-12">
+            <div class="text-gray-500 text-lg mb-4">No players found</div>
+            <%= link_to "Create your first player", new_player_path(Current.family), 
+                class: "bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors font-bold text-lg" %>
+          </div>
+        <% end %>
+        
+        <div class="mt-6 flex gap-4">
+          <%= link_to "Back to Game", root_path(Current.family), 
+              class: "flex-1 text-center bg-gray-500 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors font-bold" %>
+          <%= link_to "New Player", new_player_path(Current.family), 
+              class: "flex-1 text-center bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors font-bold" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
