@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_20_091435) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_20_140520) do
   create_table "command_logs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "game_id", null: false
@@ -68,6 +68,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_20_091435) do
     t.integer "family_id"
     t.string "name", null: false
     t.integer "pet_id", null: false
+    t.boolean "read_game_rules", default: false, null: false
     t.integer "target_id", null: false
     t.integer "treat_id", null: false
     t.datetime "updated_at", null: false

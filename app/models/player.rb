@@ -24,4 +24,8 @@ class Player < ApplicationRecord
       target: target,
     )
   end
+
+  def display_rules!
+    update(read_game_rules: true) && read_game_rules_previously_changed?
+  end
 end
