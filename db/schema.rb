@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_19_184916) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_20_091435) do
   create_table "command_logs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "game_id", null: false
@@ -21,6 +21,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_19_184916) do
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_command_logs_on_game_id"
     t.index ["level_id"], name: "index_command_logs_on_level_id"
+  end
+
+  create_table "families", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "games", force: :cascade do |t|
@@ -60,11 +65,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_19_184916) do
 
   create_table "players", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.integer "family_id"
     t.string "name", null: false
     t.integer "pet_id", null: false
     t.integer "target_id", null: false
     t.integer "treat_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_players_on_family_id"
     t.index ["pet_id"], name: "index_players_on_pet_id"
     t.index ["target_id"], name: "index_players_on_target_id"
     t.index ["treat_id"], name: "index_players_on_treat_id"
@@ -94,6 +101,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_19_184916) do
   add_foreign_key "games", "players"
   add_foreign_key "games", "targets"
   add_foreign_key "games", "treats"
+  add_foreign_key "players", "families"
   add_foreign_key "players", "pets"
   add_foreign_key "players", "targets"
   add_foreign_key "players", "treats"

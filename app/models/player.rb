@@ -3,6 +3,7 @@
 class Player < ApplicationRecord
   include Hashid::Rails
 
+  belongs_to :family
   belongs_to :pet
   belongs_to :treat
   belongs_to :target
