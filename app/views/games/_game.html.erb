@@ -64,26 +64,32 @@
         </div>
       </div>
 
-      <%= form_with url: execute_game_path, class: "flex flex-col h-full" do |f| %>
+      <%= form_with url: execute_game_path, class: "flex flex-col flex-1" do |f| %>
         <%= f.text_area :code, class: "w-full flex-1 p-3 border border-gray-300 rounded-lg font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
 
-        <div class="mt-6 space-y-4">
+        <div class="mt-6">
           <div class="flex gap-3">
             <%= f.submit "Run", class: "flex-1 bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors font-medium" %>
             <button type="button" class="flex-1 bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition-colors font-medium">CLEAR</button>
           </div>
-
-          <div class="grid grid-cols-3 gap-2">
-            <%= link_to "Pet", change_pet_game_path, data: { turbo_method: :put }, class: "text-center bg-green-500 text-white py-2 px-3 rounded-lg hover:bg-green-600 transition-colors text-sm font-medium" %>
-            <%= link_to "Target", change_target_game_path, data: { turbo_method: :put }, class: "text-center bg-yellow-500 text-white py-2 px-3 rounded-lg hover:bg-yellow-600 transition-colors text-sm font-medium" %>
-            <%= link_to "Treat", change_treat_game_path, data: { turbo_method: :put }, class: "text-center bg-cyan-500 text-white py-2 px-3 rounded-lg hover:bg-cyan-600 transition-colors text-sm font-medium" %>
-          </div>
-
-          <div class="grid grid-cols-1 gap-2">
-            <%= link_to "🏆 Leaderboard", leaderboard_players_path(Current.family), data: { turbo: false }, class: "text-center bg-purple-500 text-white py-2 px-3 rounded-lg hover:bg-purple-600 transition-colors text-sm font-medium" %>
-          </div>
         </div>
       <% end %>
+
+      <!-- Change buttons outside the form -->
+      <div class="mt-4 space-y-4">
+        <div class="grid grid-cols-3 gap-2">
+          <%= link_to "Pet", change_pet_game_path, data: { turbo_method: :put }, class: "text-center bg-green-500 text-white py-2 px-3 rounded-lg hover:bg-green-600 transition-colors text-sm font-medium" %>
+          <%= link_to "Target", change_target_game_path, data: { turbo_method: :put }, class: "text-center bg-yellow-500 text-white py-2 px-3 rounded-lg hover:bg-yellow-600 transition-colors text-sm font-medium" %>
+          <%= link_to "Treat", change_treat_game_path, data: { turbo_method: :put }, class: "text-center bg-cyan-500 text-white py-2 px-3 rounded-lg hover:bg-cyan-600 transition-colors text-sm font-medium" %>
+        </div>
+
+        <div class="grid grid-cols-1 gap-2">
+          <%= link_to "🏆 Leaderboard", leaderboard_players_path(Current.family), data: { turbo: false }, class: "text-center bg-purple-500 text-white py-2 px-3 rounded-lg hover:bg-purple-600 transition-colors text-sm font-medium" %>
+          <button data-action="click->modal#show" class="text-center bg-blue-500 text-white py-2 px-3 rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium">
+            📜 Game Rules
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

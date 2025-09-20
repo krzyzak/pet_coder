@@ -1,11 +1,13 @@
-<%= turbo_stream_from Current.pet %>
 <%= turbo_stream_from Current.game %>
 
-<div class="h-screen w-full max-w-380 mx-auto relative overflow-hidden">
+<div class="h-screen w-full max-w-380 mx-auto relative overflow-hidden"
+     data-controller="modal"
+     data-modal-auto-show-value="<%= Current.player.display_rules! %>">
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('<%= asset_path('media/background.png') %>');"></div>
   <%= turbo_frame_tag :game do %>
     <%= render Current.game %>
 
     <%= render "game_over_modal" if Current.game.game_over? %>
+    <%= render "game_rules_modal" %>
   <% end %>
 </div>
