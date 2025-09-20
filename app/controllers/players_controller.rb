@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlayersController < ApplicationController
   def new
     @player = Current.family.players.build
@@ -9,7 +11,7 @@ class PlayersController < ApplicationController
     if @player.save
       cookies[:player_id] = @player.hashid
 
-      redirect_to root_path(Current.family.hashid), notice: 'Player was successfully created.'
+      redirect_to root_path(Current.family.hashid)
     else
       render :new, status: :unprocessable_entity
     end
@@ -25,6 +27,6 @@ class PlayersController < ApplicationController
   private
 
   def player_params
-    params.require(:player).permit(:name, :pet_id, :treat_id, :target_id)
+    params.expect(player: [:name, :pet_id, :treat_id, :target_id])
   end
 end
