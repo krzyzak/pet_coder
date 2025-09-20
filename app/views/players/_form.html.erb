@@ -1,0 +1,46 @@
+<%= form_with model: @player, class: "space-y-6" do |f| %>
+  <% if @player.errors.any? %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+      <h4 class="font-bold"><%= pluralize(@player.errors.count, "error") %> prohibited this player from being saved:</h4>
+      <ul class="mt-2 list-disc list-inside">
+        <% @player.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="bg-white/95 rounded-lg p-6 shadow-lg">
+    <div class="space-y-6">
+      <div>
+        <%= f.label :name, class: "block text-lg font-bold text-gray-800 mb-2" %>
+        <%= f.text_field :name, class: "w-full p-3 border border-gray-300 rounded-lg font-medium text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent", placeholder: "Enter player name" %>
+      </div>
+
+      <div>
+        <%= f.label :pet_id, "Choose Pet", class: "block text-lg font-bold text-gray-800 mb-2" %>
+        <%= f.collection_select :pet_id, Pet.all, :id, :name,
+            { prompt: "Select a pet..." },
+            { class: "w-full p-3 border border-gray-300 rounded-lg font-medium text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" } %>
+      </div>
+
+      <div>
+        <%= f.label :treat_id, "Choose Treat", class: "block text-lg font-bold text-gray-800 mb-2" %>
+        <%= f.collection_select :treat_id, Treat.all, :id, :name,
+            { prompt: "Select a treat..." },
+            { class: "w-full p-3 border border-gray-300 rounded-lg font-medium text-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent" } %>
+      </div>
+
+      <div>
+        <%= f.label :target_id, "Choose Target", class: "block text-lg font-bold text-gray-800 mb-2" %>
+        <%= f.collection_select :target_id, Target.all, :id, :name,
+            { prompt: "Select a target..." },
+            { class: "w-full p-3 border border-gray-300 rounded-lg font-medium text-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent" } %>
+      </div>
+    </div>
+
+    <div class="mt-8 flex gap-4">
+      <%= f.submit class: "flex-1 bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors font-bold text-lg" %>
+    </div>
+  </div>
+<% end %>

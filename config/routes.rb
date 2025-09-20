@@ -13,6 +13,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  scope ":family_id" do
+    resources :players do
+      put :change, on: :collection
+    end
+  end
+
   resource :game, only: [] do
     put :reset
     post :execute
