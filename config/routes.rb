@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   resource :game, only: [] do
+    put :reset
     post :execute
     put :change_pet
     put :change_treat

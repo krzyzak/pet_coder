@@ -6,6 +6,12 @@ class GamesController < ApplicationController
   def show
   end
 
+  def reset
+    Current.game.reset!
+
+    render turbo_stream: turbo_stream.turbo_redirect(url: root_path)
+  end
+
   def execute
     parser = Parser.new
     executor = Executor.new(game: Current.game)
