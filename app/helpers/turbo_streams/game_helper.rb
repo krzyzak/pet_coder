@@ -17,6 +17,10 @@ module TurboStreams
     def delayed_remove(params)
       turbo_stream_action_tag :delayed_remove, **params
     end
+
+    def delayed_replace(params)
+      turbo_stream_action_tag :delayed_replace, **params
+    end
   end
 end
 
