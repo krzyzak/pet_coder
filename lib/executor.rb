@@ -72,8 +72,8 @@ class Executor
   end
 
   def move_allowed?
-    return false if (0..Game::GRID_SIZE).exclude?(@new_position.x)
-    return false if (0..Game::GRID_SIZE).exclude?(@new_position.y)
+    return false if (0...Game::GRID_SIZE).exclude?(@new_position.x)
+    return false if (0...Game::GRID_SIZE).exclude?(@new_position.y)
 
     true
   end
