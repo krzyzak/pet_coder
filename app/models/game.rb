@@ -34,11 +34,15 @@ class Game < ApplicationRecord
   end
 
   def reset!
-    update(points: 0, lives: LIVES, level_id: 1)
+    update(points: 0, lives: LIVES, level_id: 1, completed: false)
   end
 
   def game_over?
     lives.zero?
+  end
+
+  def next_level_exists?
+    Level.exists?(level_id + 1)
   end
 
   private
@@ -48,7 +52,13 @@ class Game < ApplicationRecord
   end
 
   def level_up!(bonus_points)
-    update(level_id: level_id + 1, points: points + bonus_points + POINTS_PER_LEVEL)
+    new_points = points + bonus_points + POINTS_PER_LEVEL
+
+    if next_level_exists?
+      update(level_id: level_id + 1, points: new_points)
+    else
+      update(points: new_points, completed: true)
+    end
   end
 
   def restart_level!
