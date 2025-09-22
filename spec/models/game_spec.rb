@@ -127,7 +127,7 @@ RSpec.describe Game do
         bonus_points = 50
 
         expect { game.check!(target_position, bonus_points: bonus_points) }.not_to change { game.reload.level }
-        
+
         game.reload
         expect(game.points).to eq(initial_points + 150) # 50 bonus + 100 per level
         expect(game.completed).to be true
