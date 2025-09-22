@@ -16,7 +16,7 @@ class Game < ApplicationRecord
   before_validation :set_defaults
   broadcasts_refreshes
 
-  delegate :walls, :treats, :holes, to: :level
+  delegate :walls, :treats, :holes, :gates, to: :level
 
   validates :lives, numericality: { in: 0..LIVES }
   validates :points, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
@@ -48,7 +48,7 @@ class Game < ApplicationRecord
   private
 
   def game_objects
-    @game_objects ||= [*walls, *treats, *holes]
+    @game_objects ||= [*walls, *treats, *holes, *gates]
   end
 
   def level_up!(bonus_points)

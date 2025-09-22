@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_22_130333) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_22_134743) do
   create_table "command_logs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "game_id", null: false
@@ -49,6 +49,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_22_130333) do
 
   create_table "levels", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.json "gates", default: [], null: false
     t.json "holes", default: [], null: false
     t.json "pet", null: false
     t.json "target", null: false
