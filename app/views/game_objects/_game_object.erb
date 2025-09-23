@@ -1,3 +1,3 @@
-<%= content_tag(:div, id: dom_id(game_object), class: "absolute w-20 h-20 p-1", style: "left: #{game_object.position.x * 80}px; top: #{game_object.position.y * 80}px") do %>
+<%= content_tag(:div, id: dom_id(game_object), class: "absolute w-20 h-20 p-1", style: "left: #{game_object.position.x * 80}px; top: #{game_object.position.y * 80}px; transform: rotate(#{game_object.rotate}deg)") do %>
   <%= image_tag "media/#{game_object.image_name}.png", class: "w-full h-full object-contain" %>
 <% end %>

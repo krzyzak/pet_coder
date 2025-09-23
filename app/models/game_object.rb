@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class GameObject
-  attr_accessor :position
+  attr_accessor :position, :rotate
 
-  def initialize(position:)
+  def initialize(position:, rotate: 0)
     @position = position
+    @rotate = rotate
   end
 
   def kind
