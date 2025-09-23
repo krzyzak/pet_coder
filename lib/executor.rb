@@ -56,7 +56,12 @@ class Executor
     perform(:move_pet, { x: @new_position.x, y: @new_position.y })
   end
 
+  def animate_pet_opening
+    perform(:animate_pet_opening)
+  end
+
   def open_gates
+    animate_pet_opening
     neighbouring_gates.each do |gate|
       gate.open!
       template = ApplicationController.render(partial: "game_objects/game_object", locals: { game_object: gate })
@@ -65,7 +70,7 @@ class Executor
     end
   end
 
-  def perform(action, params, increase_index: true)
+  def perform(action, params = {}, increase_index: true)
     @actions << [action, params.merge(index: @index)]
     @index += 1 if increase_index
   end
@@ -88,7 +93,6 @@ class Executor
   def neighbouring_gates
     offsets = [-1, 0, 1]
     neighbours = offsets.product(offsets).map do |dx, dy|
-      # Point.new(x: @position.x + dx, y: @position.y + dy)
       Point.new(x: @new_position.x + dx, y: @new_position.y + dy)
     end
 

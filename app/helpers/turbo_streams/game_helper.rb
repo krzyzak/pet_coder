@@ -6,6 +6,10 @@ module TurboStreams
       turbo_stream_action_tag :move_pet, target: :pet, **params
     end
 
+    def animate_pet_opening(params)
+      turbo_stream_action_tag :animate_pet_opening, **params
+    end
+
     def turbo_redirect(params)
       turbo_stream_action_tag :turbo_redirect, **params
     end

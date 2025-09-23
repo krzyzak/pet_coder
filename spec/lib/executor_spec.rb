@@ -250,7 +250,7 @@ RSpec.describe Executor do
 
           move_actions = actions.select { |action, _| action == :move_pet }
           expect(move_actions).to contain_exactly(
-            [:move_pet, { x: 3, y: 2, index: 1 }],
+            [:move_pet, { x: 3, y: 2, index: 2 }],
           )
         end
       end
