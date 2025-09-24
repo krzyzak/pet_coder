@@ -4,11 +4,8 @@
      data-controller="modal"
      data-modal-auto-show-value="<%= Current.player.display_rules! %>">
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('<%= asset_path('media/background.png') %>');"></div>
-  <%= turbo_frame_tag :game do %>
+  <div class="relative z-10 flex h-full">
     <%= render Current.game %>
-
-    <%= render "game_over_modal" if Current.game.game_over? %>
-    <%= render "game_completion_modal" if Current.game.completed? %>
-    <%= render "game_rules_modal" %>
-  <% end %>
+    <%= render partial: "editor" %>
+  </div>
 </div>
