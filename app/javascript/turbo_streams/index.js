@@ -1,4 +1,6 @@
+import "turbo_streams/animate_pet_opening"
 import "turbo_streams/delayed_remove"
+import "turbo_streams/delated_replace"
 import "turbo_streams/increase_points"
 import "turbo_streams/move_pet"
 import "turbo_streams/turbo_redirect"

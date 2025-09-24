@@ -93,6 +93,10 @@ class Parser
         def right
           @commands << :right
         end
+
+        def open
+          @commands << :open
+        end
       end
 
       dangerous_constants = %w[

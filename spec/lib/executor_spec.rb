@@ -166,6 +166,153 @@ RSpec.describe Executor do
         expect(game_with_treats).to have_received(:check!).with(anything, bonus_points: expected_bonus)
       end
     end
+
+    context "when encountering gates" do
+      let!(:level) do
+        create(
+          :level,
+          pet: { x: 2, y: 2 },
+          target: { x: 5, y: 5 },
+          gates: [{ x: 3, y: 2 }],
+        )
+      end
+      let(:game) { create(:game, level: level) }
+      let(:executor_with_gate) { described_class.new(game: game) }
+
+      context "when gate is closed" do
+        it "doesn't allow pet to move through closed gates" do
+          actions = executor_with_gate.execute([:right])
+
+          move_actions = actions.select { |action, _| action == :move_pet }
+          expect(move_actions).to be_empty
+        end
+      end
+
+      context "when gate is opened" do
+        before do
+          game.gates.each(&:open!)
+        end
+
+        it "allows pet to move through opened gates" do
+          actions = executor_with_gate.execute([:right])
+
+          move_actions = actions.select { |action, _| action == :move_pet }
+          expect(move_actions).to contain_exactly(
+            [:move_pet, { x: 3, y: 2, index: 0 }],
+          )
+        end
+      end
+    end
+
+    context "when using open command" do
+      let!(:level_with_nearby_gate) do
+        create(
+          :level,
+          pet: { x: 2, y: 2 },
+          target: { x: 5, y: 5 },
+          gates: [{ x: 3, y: 2 }], # Gate to the right of pet
+        )
+      end
+      let(:game_with_nearby_gate) { create(:game, level: level_with_nearby_gate) }
+      let(:executor_with_nearby_gate) { described_class.new(game: game_with_nearby_gate) }
+
+      let!(:level_with_distant_gate) do
+        create(
+          :level,
+          pet: { x: 2, y: 2 },
+          target: { x: 5, y: 5 },
+          gates: [{ x: 5, y: 5 }], # Gate far from pet
+        )
+      end
+      let(:game_with_distant_gate) { create(:game, level: level_with_distant_gate) }
+      let(:executor_with_distant_gate) { described_class.new(game: game_with_distant_gate) }
+
+      context "when gate is neighboring the pet" do
+        it "opens gates that are neighboring to pet position" do
+          gate = game_with_nearby_gate.gates.first
+          expect(gate.closed?).to be true
+
+          executor_with_nearby_gate.execute([:open])
+
+          expect(gate.opened?).to be true
+        end
+
+        it "generates delayed_replace action for opened gate" do
+          actions = executor_with_nearby_gate.execute([:open])
+
+          delayed_replace_action = actions.find { |action, _| action == :delayed_replace }
+          expect(delayed_replace_action).not_to be_nil
+          expect(delayed_replace_action[1][:target]).to match(/gate_/)
+        end
+
+        it "allows pet to move through gate after opening" do
+          actions = executor_with_nearby_gate.execute([:open, :right])
+
+          move_actions = actions.select { |action, _| action == :move_pet }
+          expect(move_actions).to contain_exactly(
+            [:move_pet, { x: 3, y: 2, index: 2 }],
+          )
+        end
+      end
+
+      context "when gate is not neighboring the pet" do
+        it "doesn't open gates that are not neighboring to pet" do
+          gate = game_with_distant_gate.gates.first
+          expect(gate.closed?).to be true
+
+          executor_with_distant_gate.execute([:open])
+
+          expect(gate.closed?).to be true
+        end
+
+        it "doesn't generate delayed_replace action for distant gates" do
+          actions = executor_with_distant_gate.execute([:open])
+
+          delayed_replace_actions = actions.select { |action, _| action == :delayed_replace }
+          expect(delayed_replace_actions).to be_empty
+        end
+      end
+
+      context "with multiple gates" do
+        let!(:level_with_multiple_gates) do
+          create(
+            :level,
+            pet: { x: 2, y: 2 },
+            target: { x: 5, y: 5 },
+            gates: [
+              { x: 3, y: 2 }, # Neighboring gate (right)
+              { x: 2, y: 3 }, # Neighboring gate (down)
+              { x: 1, y: 1 }, # Neighboring gate (diagonally up-left)
+              { x: 5, y: 5 }, # Distant gate
+            ],
+          )
+        end
+        let(:game_with_multiple_gates) { create(:game, level: level_with_multiple_gates) }
+        let(:executor_with_multiple_gates) { described_class.new(game: game_with_multiple_gates) }
+
+        it "opens all neighboring gates simultaneously" do
+          gates = game_with_multiple_gates.gates
+          *neighboring_gates, distant_gate = gates
+
+          expect(neighboring_gates.all?(&:closed?)).to be true
+          expect(distant_gate.closed?).to be true
+
+          executor_with_multiple_gates.execute([:open])
+
+          expect(neighboring_gates.all?(&:opened?)).to be true
+          expect(distant_gate.closed?).to be true
+        end
+
+        it "generates delayed_replace actions for all neighboring gates" do
+          allow(game_with_multiple_gates).to receive(:check!)
+
+          actions = executor_with_multiple_gates.execute([:open])
+
+          delayed_replace_actions = actions.select { |action, _| action == :delayed_replace }
+          expect(delayed_replace_actions.length).to eq(3)
+        end
+      end
+    end
   end
 
   describe "movement direction handling" do

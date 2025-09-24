@@ -7,5 +7,6 @@ FactoryBot.define do
     walls { [] }
     treats { [] }
     holes { [] }
+    gates { [] }
   end
 end

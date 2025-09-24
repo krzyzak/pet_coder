@@ -15,4 +15,8 @@ class Level < ApplicationRecord
   def holes
     super.map { HoleObject.new(position: PointType.new.cast(it)) }
   end
+
+  def gates
+    @gates ||= super.map { GateObject.new(position: PointType.new.cast(it), rotate: it["rotate"]) }
+  end
 end
