@@ -42,7 +42,9 @@ class Executor
     game.check!(@position, bonus_points: bonus_points)
 
     @index += 1
-    perform(:turbo_redirect, { url: "/" })
+
+    template = ApplicationController.render(game)
+    perform(:delayed_replace, { target: :game, template: template })
 
     @actions
   end

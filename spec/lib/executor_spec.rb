@@ -9,12 +9,19 @@ RSpec.describe Executor do
   let(:game) { create(:game, level: level) }
 
   describe "#execute" do
+    before do
+      Current.family = create(:family)
+    end
+
     context "with valid move commands" do
       it "executes movement commands and returns actions" do
         actions = executor.execute([:right, :down])
 
-        expect(actions).not_to be_empty
-        expect(actions.last).to eq([:turbo_redirect, { url: "/", index: 3 }])
+        expect(actions.count).to eq(3)
+        action, params = actions.last
+
+        expect(action).to eq(:delayed_replace)
+        expect(params[:target]).to eq(:game)
       end
 
       it "generates move_pet actions for valid moves" do
@@ -266,7 +273,7 @@ RSpec.describe Executor do
         end
 
         it "doesn't generate delayed_replace action for distant gates" do
-          actions = executor_with_distant_gate.execute([:open])
+          *actions, _ = executor_with_distant_gate.execute([:open])
 
           delayed_replace_actions = actions.select { |action, _| action == :delayed_replace }
           expect(delayed_replace_actions).to be_empty
@@ -306,7 +313,7 @@ RSpec.describe Executor do
         it "generates delayed_replace actions for all neighboring gates" do
           allow(game_with_multiple_gates).to receive(:check!)
 
-          actions = executor_with_multiple_gates.execute([:open])
+          *actions, _ = executor_with_multiple_gates.execute([:open])
 
           delayed_replace_actions = actions.select { |action, _| action == :delayed_replace }
           expect(delayed_replace_actions.length).to eq(3)

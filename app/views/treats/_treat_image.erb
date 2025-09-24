@@ -1,1 +1,1 @@
-<%= image_tag "media/treats/#{treat.image_name}", id: :treat_image, class: "w-full h-full object-contain" %>
+<%= image_tag "media/treats/#{treat.image_name}", id: :treat_image, class: "w-full h-full object-contain" if asset_exists?("media/treats/#{treat.image_name}") %>
