@@ -43,6 +43,8 @@ class Executor
 
     @index += 1
 
+    game.gates.each(&:close!)
+
     template = ApplicationController.render(game)
     perform(:delayed_replace, { target: :game, template: template })
 
@@ -66,7 +68,7 @@ class Executor
     animate_pet_opening
     neighbouring_gates.each do |gate|
       gate.open!
-      template = ApplicationController.render(partial: "game_objects/game_object", locals: { game_object: gate })
+      template = ApplicationController.render(gate)
 
       perform(:delayed_replace, { target: ActionView::RecordIdentifier.dom_id(gate), template: template })
     end
