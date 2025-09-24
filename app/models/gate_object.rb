@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GateObject < GameObject
-  def initialize(position:)
+  def initialize(position:, rotate: 0)
     super
     @opened = false
   end
