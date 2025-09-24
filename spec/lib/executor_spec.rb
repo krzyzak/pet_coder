@@ -9,6 +9,10 @@ RSpec.describe Executor do
   let(:game) { create(:game, level: level) }
 
   describe "#execute" do
+    before do
+      Current.family = create(:family)
+    end
+
     context "with valid move commands" do
       it "executes movement commands and returns actions" do
         actions = executor.execute([:right, :down])
