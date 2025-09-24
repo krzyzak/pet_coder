@@ -1,6 +1,6 @@
 <div class="h-screen w-full max-w-380 mx-auto relative overflow-hidden">
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('<%= asset_path('media/background.png') %>');"></div>
-  
+
   <div class="relative z-10 h-full flex flex-col">
     <div class="p-6 overflow-y-auto flex-1">
       <div class="mb-6">
@@ -34,7 +34,7 @@
                         </div>
                       <% end %>
                     </div>
-                    
+
                     <!-- Player Info -->
                     <div class="flex-1">
                       <h3 class="text-lg font-bold text-gray-800"><%= player.name %></h3>
@@ -53,11 +53,11 @@
                         </span>
                       </div>
                     </div>
-                    
+
                     <!-- Player Visuals -->
                     <div class="flex items-center space-x-2">
                       <div class="w-8 h-8 flex items-center justify-center">
-                        <%= image_tag "media/players/#{player.pet.image_name}", class: "w-6 h-6 object-contain" %>
+                        <%= image_tag "media/pets/#{player.pet.image_name}", class: "w-6 h-6 object-contain" %>
                       </div>
                       <div class="w-8 h-8 flex items-center justify-center">
                         <%= image_tag "media/treats/#{player.treat.image_name}", class: "w-6 h-6 object-contain" %>
@@ -67,10 +67,10 @@
                       </div>
                     </div>
                   </div>
-                  
+
                   <!-- Edit Button -->
                   <div class="flex-shrink-0 ml-4">
-                    <%= link_to "Edit", edit_player_path(Current.family, player), 
+                    <%= link_to "Edit", edit_player_path(Current.family, player),
                         class: "bg-blue-500 text-white py-2 px-3 rounded hover:bg-blue-600 transition-colors text-sm font-medium" %>
                   </div>
                 </div>
@@ -80,15 +80,15 @@
         <% else %>
           <div class="text-center py-12">
             <div class="text-gray-500 text-lg mb-4">No players found</div>
-            <%= link_to "Create your first player", new_player_path(Current.family), 
+            <%= link_to "Create your first player", new_player_path(Current.family),
                 class: "bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors font-bold text-lg" %>
           </div>
         <% end %>
-        
+
         <div class="mt-6 flex gap-4">
-          <%= link_to "Back to Game", root_path(Current.family), 
+          <%= link_to "Back to Game", root_path(Current.family),
               class: "flex-1 text-center bg-gray-500 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors font-bold" %>
-          <%= link_to "New Player", new_player_path(Current.family), 
+          <%= link_to "New Player", new_player_path(Current.family),
               class: "flex-1 text-center bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors font-bold" %>
         </div>
       </div>
