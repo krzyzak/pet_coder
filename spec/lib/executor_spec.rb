@@ -239,6 +239,7 @@ RSpec.describe Executor do
           gate = game_with_nearby_gate.gates.first
           expect(gate.closed?).to be true
 
+          allow(executor_with_nearby_gate).to receive(:finalize)
           executor_with_nearby_gate.execute([:open])
 
           expect(gate.opened?).to be true
@@ -303,6 +304,8 @@ RSpec.describe Executor do
 
           expect(neighboring_gates.all?(&:closed?)).to be true
           expect(distant_gate.closed?).to be true
+
+          allow(executor_with_multiple_gates).to receive(:finalize)
 
           executor_with_multiple_gates.execute([:open])
 
