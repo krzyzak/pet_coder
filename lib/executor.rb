@@ -10,11 +10,10 @@ class Executor
     @actions = []
     @index = 0
     @position = game.level.pet.dup
+    @bonus_points = 0
   end
 
   def execute(commands)
-    bonus_points = 0
-
     commands.each do |command|
       calculate_new_position(command)
       open_gates if command == :open
@@ -30,7 +29,7 @@ class Executor
       when GateObject
         move_pet if item.opened?
       when TreatObject
-        bonus_points += game.treat.points
+        @bonus_points += game.treat.points
         perform(:delayed_remove, { target: item }, increase_index: false)
         perform(:increase_points, { amount: game.treat.points }, increase_index: false)
         move_pet
@@ -39,14 +38,20 @@ class Executor
       end
     end
 
-    game.check!(@position, bonus_points: bonus_points)
+    finalize
+
+    @actions
+  end
+
+  def finalize
+    game.check!(@position, bonus_points: @bonus_points)
 
     @index += 1
 
+    game.gates.each(&:close!)
+
     template = ApplicationController.render(game)
     perform(:delayed_replace, { target: :game, template: template })
-
-    @actions
   end
 
   private
@@ -66,7 +71,7 @@ class Executor
     animate_pet_opening
     neighbouring_gates.each do |gate|
       gate.open!
-      template = ApplicationController.render(partial: "game_objects/game_object", locals: { game_object: gate })
+      template = ApplicationController.render(gate)
 
       perform(:delayed_replace, { target: ActionView::RecordIdentifier.dom_id(gate), template: template })
     end

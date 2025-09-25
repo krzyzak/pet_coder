@@ -18,6 +18,10 @@ class GateObject < GameObject
     @opened = true
   end
 
+  def close!
+    @opened = false
+  end
+
   def image_name
     "gate_#{state}"
   end

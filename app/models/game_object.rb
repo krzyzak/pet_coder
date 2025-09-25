@@ -20,6 +20,10 @@ class GameObject
     kind
   end
 
+  def to_partial_path
+    "game_objects/game_object"
+  end
+
   def to_key
     [position.x, position.y]
   end
