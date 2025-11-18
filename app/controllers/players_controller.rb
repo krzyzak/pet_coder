@@ -18,7 +18,7 @@ class PlayersController < ApplicationController
 
       redirect_to root_path(Current.family.hashid)
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -36,7 +36,7 @@ class PlayersController < ApplicationController
     if @player.update(player_params)
       redirect_to leaderboard_players_path(Current.family)
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
