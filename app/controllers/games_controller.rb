@@ -14,6 +14,7 @@ class GamesController < ApplicationController
   end
 
   def execute
+    @turbo_actions = []
     parser = Parser.new
     executor = Executor.new(game: Current.game)
     result = parser.parse(params[:code])
