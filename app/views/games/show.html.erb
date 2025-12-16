@@ -1,5 +1,6 @@
 <%= turbo_stream_from Current.game %>
 
+<%= audio_tag('sounds/BackgroundMusic.mp3', autoplay: true, loop: true) %>
 <div class="h-screen w-full max-w-380 mx-auto relative overflow-hidden"
      data-controller="modal"
      data-modal-auto-show-value="<%= Current.player.display_rules! %>">
