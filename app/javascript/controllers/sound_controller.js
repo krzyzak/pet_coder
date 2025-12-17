@@ -10,14 +10,10 @@ export default class extends Controller {
   }
 
   gameOverTargetConnected(element) {
-    if (!document.documentElement.hasAttribute('data-turbo-preview')) {
-      element.play().catch(e => console.error("Could not play game over sound", e));
-    }
+    element.play().catch(e => console.error("Could not play game over sound", e));
   }
 
   gameCompletedTargetConnected(element) {
-    if (!document.documentElement.hasAttribute('data-turbo-preview')) {
-      element.play().catch(e => console.error("Could not play game completed sound", e));
-    }
+    element.play().catch(e => console.error("Could not play game completed sound", e));
   }
 }
