@@ -46,7 +46,12 @@ class Executor
   end
 
   def finalize
-    game.check!(@position, bonus_points: @bonus_points)
+    if @position == game.level.target
+      game.level_up!(@bonus_points)
+      play_sound(:level_up)
+    else
+      game.restart_level!
+    end
 
     @index += 1
 

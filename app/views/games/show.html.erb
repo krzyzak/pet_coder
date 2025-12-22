@@ -4,8 +4,9 @@
      data-controller="modal sound"
      data-modal-auto-show-value="<%= Current.player.display_rules! %>">
   <%= audio_tag('sounds/BackgroundMusic.mp3', id: :background_music, loop: true, data: { sound_target: 'backgroundMusic', turbo_permanent: true }) %>
-  <%= audio_tag('sounds/Treat.mp3', id: :treat_sound, data: { sound_target: 'backgroundMusic', turbo_permanent: true }) %>
-  <%= audio_tag('sounds/Hole.mp3', id: :hole_sound, data: { sound_target: 'backgroundMusic', turbo_permanent: true }) %>
+  <%= audio_tag('sounds/Treat.mp3', id: :treat_sound, data: { sound_target: 'treatSound', turbo_permanent: true }) %>
+  <%= audio_tag('sounds/Hole.mp3', id: :hole_sound, data: { sound_target: 'holeSound', turbo_permanent: true }) %>
+  <%= audio_tag('sounds/LevelUp.mp3', id: :level_up_sound, data: { sound_target: 'levelUpSound', turbo_permanent: true }) %>
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('<%= asset_path('media/background.png') %>');"></div>
   <div class="relative z-10 flex h-full">
     <%= render Current.game %>

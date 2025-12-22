@@ -25,8 +25,6 @@ RSpec.describe Executor do
       end
 
       it "generates move_pet actions for valid moves" do
-        allow(game).to receive(:check!)
-
         actions = executor.execute([:right, :down])
 
         move_actions = actions.select { |action, _| action == :move_pet }
@@ -36,19 +34,29 @@ RSpec.describe Executor do
         )
       end
 
-      it "calls game.check! with final position and bonus points" do
-        allow(game).to receive(:check!).with(Point.new(x: 3, y: 3), bonus_points: 0)
+      context "when the player reaches the target" do
+        it "calls game.level_up! with bonus points" do
+          allow(game).to receive(:level_up!).with(0)
 
-        executor.execute([:right, :down])
+          executor.execute([:right, :right, :right, :down, :down, :down])
 
-        expect(game).to have_received(:check!).with(Point.new(x: 3, y: 3), bonus_points: 0)
+          expect(game).to have_received(:level_up!).with(0)
+        end
+      end
+
+      context "when the player does not reach the target" do
+        it "calls game.restart_level!" do
+          allow(game).to receive(:restart_level!).with(no_args)
+
+          executor.execute([:right, :down])
+
+          expect(game).to have_received(:restart_level!).with(no_args)
+        end
       end
     end
 
     context "when hitting boundary" do
       it "doesn't generate move actions for invalid boundary moves" do
-        allow(game).to receive(:check!)
-
         actions = executor.execute([:left, :left, :left, :left])
 
         move_actions = actions.select { |action, _| action == :move_pet }
@@ -73,8 +81,6 @@ RSpec.describe Executor do
       let(:executor_with_wall) { described_class.new(game: game_with_wall) }
 
       it "doesn't generate move actions when blocked by walls" do
-        allow(game_with_wall).to receive(:check!)
-
         actions = executor_with_wall.execute([:right])
 
         move_actions = actions.select { |action, _| action == :move_pet }
@@ -95,8 +101,6 @@ RSpec.describe Executor do
       let(:executor_with_hole) { described_class.new(game: game_with_hole) }
 
       it "stops execution when encountering holes" do
-        allow(game_with_hole).to receive(:check!)
-
         actions = executor_with_hole.execute([:right, :down])
 
         move_actions = actions.select { |action, _| action == :move_pet }
@@ -106,8 +110,6 @@ RSpec.describe Executor do
       end
 
       it "plays a sound when encountering holes" do
-        allow(game_with_hole).to receive(:check!)
-
         actions = executor_with_hole.execute([:right, :down])
 
         play_sound_actions = actions.select { |action, _| action == :play_sound }
@@ -131,16 +133,14 @@ RSpec.describe Executor do
 
       it "collects treat and adds bonus points" do
         treat_points = game_with_treat.treat.points
-        allow(game_with_treat).to receive(:check!).with(anything, bonus_points: treat_points)
+        allow(game_with_treat).to receive(:level_up!).with(treat_points)
 
-        executor_with_treat.execute([:right])
+        executor_with_treat.execute([:right, :right, :right, :down, :down, :down])
 
-        expect(game_with_treat).to have_received(:check!).with(anything, bonus_points: treat_points)
+        expect(game_with_treat).to have_received(:level_up!).with(treat_points)
       end
 
       it "adds treat collection actions" do
-        allow(game_with_treat).to receive(:check!)
-
         actions = executor_with_treat.execute([:right])
 
         delayed_remove_action = actions.find { |action, _| action == :delayed_remove }
@@ -155,8 +155,6 @@ RSpec.describe Executor do
       end
 
       it "generates move action to treat position" do
-        allow(game_with_treat).to receive(:check!)
-
         actions = executor_with_treat.execute([:right])
 
         move_actions = actions.select { |action, _| action == :move_pet }
@@ -180,11 +178,11 @@ RSpec.describe Executor do
       it "accumulates bonus points from multiple treats" do
         treat_points = game_with_treats.treat.points
         expected_bonus = treat_points * 2
-        allow(game_with_treats).to receive(:check!).with(anything, bonus_points: expected_bonus)
+        allow(game_with_treats).to receive(:level_up!).with(expected_bonus)
 
-        executor_with_treats.execute([:right, :down])
+        executor_with_treats.execute([:right, :down, :right, :right, :down, :down])
 
-        expect(game_with_treats).to have_received(:check!).with(anything, bonus_points: expected_bonus)
+        expect(game_with_treats).to have_received(:level_up!).with(expected_bonus)
       end
     end
 
@@ -328,8 +326,6 @@ RSpec.describe Executor do
         end
 
         it "generates delayed_replace actions for all neighboring gates" do
-          allow(game_with_multiple_gates).to receive(:check!)
-
           *actions, _ = executor_with_multiple_gates.execute([:open])
 
           delayed_replace_actions = actions.select { |action, _| action == :delayed_replace }
@@ -341,7 +337,7 @@ RSpec.describe Executor do
 
   describe "movement direction handling" do
     it "handles all four movement directions correctly" do
-      allow(game).to receive(:check!)
+      allow(game).to receive(:restart_level!).with(no_args)
 
       executor_left = described_class.new(game: game)
       executor_right = described_class.new(game: game)
