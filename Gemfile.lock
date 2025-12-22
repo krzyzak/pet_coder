@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: aeec2cdbae9c4e3eecace19b3d6f788c24d3ac9b
+  revision: 9cb90e91dce51d6f152c9709b387d54d3ebad79c
   branch: main
   specs:
     actioncable (8.2.0.alpha)
@@ -149,7 +149,7 @@ GEM
       activerecord (>= 4.0)
       hashids (~> 1.0)
     hashids (1.0.6)
-    i18n (1.14.7)
+    i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.2.2)
       actionpack (>= 6.0.0)
@@ -226,7 +226,7 @@ GEM
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
-    prism (1.6.0)
+    prism (1.7.0)
     propshaft (1.3.1)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
@@ -257,7 +257,7 @@ GEM
     rake (13.3.1)
     rbs (3.9.5)
       logger
-    rdoc (7.0.1)
+    rdoc (7.0.2)
       erb
       psych (>= 4.0.0)
       tsort
