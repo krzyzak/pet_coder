@@ -25,6 +25,10 @@ module TurboStreams
     def delayed_replace(params)
       turbo_stream_action_tag :delayed_replace, **params
     end
+
+    def play_sound(params)
+      turbo_stream_action_tag :play_sound, **params
+    end
   end
 end
 

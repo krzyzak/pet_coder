@@ -25,12 +25,14 @@ class Executor
         next
       when HoleObject
         move_pet
+        play_sound(:hole)
         break
       when GateObject
         move_pet if item.opened?
       when TreatObject
         @bonus_points += game.treat.points
         perform(:delayed_remove, { target: item }, increase_index: false)
+        play_sound(:treat)
         perform(:increase_points, { amount: game.treat.points }, increase_index: false)
         move_pet
       else
@@ -111,5 +113,9 @@ class Executor
     return false if (0...Game::GRID_SIZE).exclude?(@new_position.y)
 
     true
+  end
+
+  def play_sound(sound)
+    perform(:play_sound, { sound: sound })
   end
 end

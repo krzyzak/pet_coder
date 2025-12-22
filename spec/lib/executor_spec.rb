@@ -104,6 +104,17 @@ RSpec.describe Executor do
           [:move_pet, { x: 3, y: 2, index: 0 }],
         )
       end
+
+      it "plays a sound when encountering holes" do
+        allow(game_with_hole).to receive(:check!)
+
+        actions = executor_with_hole.execute([:right, :down])
+
+        play_sound_actions = actions.select { |action, _| action == :play_sound }
+        expect(play_sound_actions).to contain_exactly(
+          [:play_sound, { sound: :hole, index: 1 }],
+        )
+      end
     end
 
     context "when encountering treats" do
@@ -134,10 +145,13 @@ RSpec.describe Executor do
 
         delayed_remove_action = actions.find { |action, _| action == :delayed_remove }
         increase_points_action = actions.find { |action, _| action == :increase_points }
+        play_sound_action = actions.find { |action, _| action == :play_sound }
 
         expect(delayed_remove_action).not_to be_nil
         expect(increase_points_action).not_to be_nil
+        expect(play_sound_action).not_to be_nil
         expect(increase_points_action[1][:amount]).to eq(game_with_treat.treat.points)
+        expect(play_sound_action[1][:sound]).to eq(:treat)
       end
 
       it "generates move action to treat position" do
