@@ -24,17 +24,25 @@ export default class extends Controller {
   static classes = ["playing"];
 
   connect() {
-    this.backgroundMusicVolumeValue = parseFloat(localStorage.getItem("backgroundMusicVolume")) || this.backgroundMusicVolumeValue;
-    this.backgroundMusicMutedValue = (localStorage.getItem("backgroundMusicMuted") === "true") || this.backgroundMusicMutedValue;
-    this.soundEffectsVolumeValue = parseFloat(localStorage.getItem("soundEffectsVolume")) || this.soundEffectsVolumeValue;
-    this.soundEffectsMutedValue = (localStorage.getItem("soundEffectsMuted") === "true") || this.soundEffectsMutedValue;
+    const backgroundMusicVolume = localStorage.getItem("backgroundMusicVolume");
+    if (backgroundMusicVolume !== null) {
+      this.backgroundMusicVolumeValue = parseFloat(backgroundMusicVolume);
+    }
+    const soundEffectsVolume = localStorage.getItem("soundEffectsVolume");
+    if (soundEffectsVolume !== null) {
+      this.soundEffectsVolumeValue = parseFloat(soundEffectsVolume);
+    }
+    const soundEffectsMuted = localStorage.getItem("soundEffectsMuted");
+    if (soundEffectsMuted !== null) {
+      this.soundEffectsMutedValue = soundEffectsMuted === "true";
+    }
 
     if (this.hasBackgroundMusicVolumeSliderTarget) {
       this.backgroundMusicVolumeSliderTarget.value = this.backgroundMusicVolumeValue;
     }
 
-    if (!this.backgroundMusicMutedValue && this.hasBackgroundMusicButtonTarget) {
-      this.backgroundMusicButtonTarget.classList.add(...this.playingClasses);
+    if (this.hasBackgroundMusicTarget) {
+      this.backgroundMusicTarget.volume = this.backgroundMusicVolumeValue;
     }
 
     if (this.hasSoundEffectsVolumeSliderTarget) {
@@ -44,20 +52,22 @@ export default class extends Controller {
     if (!this.soundEffectsMutedValue && this.hasSoundEffectsButtonTarget) {
       this.soundEffectsButtonTarget.classList.add(...this.playingClasses);
     }
+
+    this.streamActionsSoundEffects().forEach((soundEffect) => {
+      soundEffect.volume = this.soundEffectsVolumeValue;
+      soundEffect.muted = this.soundEffectsMutedValue;
+    });
   }
 
   toggleBackgroundMusic() {
-    this.backgroundMusicMutedValue = !this.backgroundMusicMutedValue;
-    localStorage.setItem("backgroundMusicMuted", this.backgroundMusicMutedValue);
-
     if (this.hasBackgroundMusicTarget) {
-      if (this.backgroundMusicMutedValue) {
+      if (this.backgroundMusicTarget.paused) {
+        this.backgroundMusicTarget.play().catch(e => console.error("Could not play background music", e));
+        this.backgroundMusicButtonTarget.classList.add(...this.playingClasses);
+      } else {
         this.backgroundMusicTarget.pause();
         this.backgroundMusicButtonTarget.classList.remove(...this.playingClasses);
         this.backgroundMusicTarget.fastSeek(0);
-      } else {
-        this.backgroundMusicTarget.play().catch(e => console.error("Could not play background music", e));
-        this.backgroundMusicButtonTarget.classList.add(...this.playingClasses);
       }
     }
   }
@@ -99,7 +109,12 @@ export default class extends Controller {
   }
 
   streamActionsSoundEffects() {
-    return [this.holeTarget, this.treatTarget, this.levelUpTarget];
+    if (this.hasHoleTarget && this.hasTreatTarget && this.hasLevelUpTarget) {
+      return [this.holeTarget, this.treatTarget, this.levelUpTarget];
+    }
+    else {
+      return [];
+    }
   }
 
   playSound(soundName) {
@@ -118,5 +133,11 @@ export default class extends Controller {
 
   gameCompletedTargetConnected(element) {
     this.playSound("gameCompleted");
+  }
+
+  backgroundMusicTargetConnected(element) {
+    if (this.hasBackgroundMusicTarget && !this.backgroundMusicTarget.paused && this.hasBackgroundMusicButtonTarget) {
+      this.backgroundMusicButtonTarget.classList.add(...this.playingClasses);
+    }
   }
 }
