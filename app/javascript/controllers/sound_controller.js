@@ -15,9 +15,8 @@ export default class extends Controller {
   ];
 
   static values = {
-    backgroundMusicVolume: { type: Number, default: 1 },
-    backgroundMusicMuted: { type: Boolean, default: true },
-    soundEffectsVolume: { type: Number, default: 1 },
+    backgroundMusicVolume: { type: Number, default: 0.5 },
+    soundEffectsVolume: { type: Number, default: 0.5 },
     soundEffectsMuted: { type: Boolean, default: false }
   };
 
