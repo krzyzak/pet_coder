@@ -101,6 +101,7 @@ end
 - Rails (main branch)
 - Docker (for running user code safely)
 - SQLite 3
+- Overmind (for running the server with `bin/dev`)
 
 ### Installation
 

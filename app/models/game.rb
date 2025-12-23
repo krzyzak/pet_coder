@@ -25,12 +25,18 @@ class Game < ApplicationRecord
     game_objects.find { it.position == position }
   end
 
-  def check!(position, bonus_points: 0)
-    if position == level.target
-      level_up!(bonus_points)
+  def level_up!(bonus_points)
+    new_points = points + bonus_points + POINTS_PER_LEVEL
+
+    if next_level_exists?
+      update(level_id: level_id + 1, points: new_points)
     else
-      restart_level!
+      update(points: new_points, completed: true)
     end
+  end
+
+  def restart_level!
+    update(lives: lives - 1)
   end
 
   def reset!
@@ -49,20 +55,6 @@ class Game < ApplicationRecord
 
   def game_objects
     @game_objects ||= [*walls, *treats, *holes, *gates]
-  end
-
-  def level_up!(bonus_points)
-    new_points = points + bonus_points + POINTS_PER_LEVEL
-
-    if next_level_exists?
-      update(level_id: level_id + 1, points: new_points)
-    else
-      update(points: new_points, completed: true)
-    end
-  end
-
-  def restart_level!
-    update(lives: lives - 1)
   end
 
   def set_defaults
