@@ -66,27 +66,35 @@ RSpec.describe Game do
     end
   end
 
-  describe "#check!" do
-    context "when position matches level target" do
-      let(:target_position) { Point.new(x: 5, y: 5) }
-      let!(:second_level) { create(:level) }
+  describe "#level_up!" do
+    let(:bonus_points) { 50 }
+    let!(:second_level) { create(:level) }
 
-      it "levels up with bonus points" do
-        bonus_points = 50
-
-        expect { game.check!(target_position, bonus_points: bonus_points) }.to change { game.reload.level }
-          .from(level).to(second_level)
-          .and change { game.reload.points }.from(0).to(150) # 50 bonus + 100 per level
-      end
+    it "levels up with bonus points" do
+      expect { game.level_up!(bonus_points) }.to change { game.reload.level }
+        .from(level).to(second_level)
+        .and change { game.reload.points }.from(0).to(150) # 50 bonus + 100 per level
     end
 
-    context "when position does not match level target" do
-      let(:wrong_position) { Point.new(x: 1, y: 1) }
+    context "when player has completed all levels" do
+      it "does not advance level but marks as completed and adds points" do
+        max_level_id = Level.maximum(:id)
+        game.update(level_id: max_level_id, completed: false)
+        initial_points = game.points
+        bonus_points = 50
 
-      it "restarts level and reduces lives" do
-        expect { game.check!(wrong_position) }.not_to change { game.reload.level }
-        expect { game.check!(wrong_position) }.to change { game.reload.lives }.by(-1)
+        expect { game.level_up!(bonus_points) }.not_to change { game.reload.level }
+
+        expect(game.points).to eq(initial_points + 150) # 50 bonus + 100 per level
+        expect(game.completed).to be true
       end
+    end
+  end
+
+  describe "#restart_level!" do
+    it "restarts level and reduces lives" do
+      expect { game.restart_level! }.not_to change { game.reload.level }
+      expect { game.restart_level! }.to change { game.reload.lives }.by(-1)
     end
   end
 
@@ -100,38 +108,6 @@ RSpec.describe Game do
       expect(game.lives).to eq(Game::LIVES)
       expect(game.level_id).to eq(1)
       expect(game.completed).to be false
-    end
-  end
-
-  describe "#check! with level completion" do
-    context "when there are more levels available" do
-      let!(:second_level) { create(:level) }
-      let(:target_position) { level.target }
-
-      it "advances to next level and adds points" do
-        bonus_points = 50
-
-        expect { game.check!(target_position, bonus_points: bonus_points) }.to change { game.reload.level }
-          .from(level).to(second_level)
-          .and change { game.reload.points }.from(0).to(150) # 50 bonus + 100 per level
-      end
-    end
-
-    context "when player has completed all levels" do
-      let(:target_position) { level.target }
-
-      it "does not advance level but marks as completed and adds points" do
-        max_level_id = Level.maximum(:id)
-        game.update(level_id: max_level_id, completed: false)
-        initial_points = game.points
-        bonus_points = 50
-
-        expect { game.check!(target_position, bonus_points: bonus_points) }.not_to change { game.reload.level }
-
-        game.reload
-        expect(game.points).to eq(initial_points + 150) # 50 bonus + 100 per level
-        expect(game.completed).to be true
-      end
     end
   end
 end

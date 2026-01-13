@@ -1,6 +1,8 @@
 <div data-controller="modal"
      data-modal-auto-show-value="true"
-     class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+     class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50"
+     data-turbo-temporary>
+  <%= audio_tag('GameCompleted.mp3', data: { sound_target: 'gameCompleted' }) %>
   <div data-modal-target="modal"
        data-action="click->modal#backdropClick"
        class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 flex">

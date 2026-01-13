@@ -1,4 +1,5 @@
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" data-turbo-temporary>
+  <%= audio_tag('GameOver.mp3', data: { sound_target: 'gameOver' }) %>
   <div class="bg-white rounded-lg p-8 max-w-sm w-full mx-4 text-center shadow-2xl">
     <div class="mb-6">
       <div class="mx-auto w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">

@@ -1,8 +1,13 @@
 <%= turbo_stream_from Current.game %>
 
 <div class="h-screen w-full max-w-380 mx-auto relative overflow-hidden"
-     data-controller="modal"
+     data-controller="modal sound"
+     data-sound-playing-class="bg-red-500 hover:bg-red-600"
      data-modal-auto-show-value="<%= Current.player.display_rules! %>">
+  <%= audio_tag('BackgroundMusic.mp3', id: :background_music, loop: true, data: { sound_target: 'backgroundMusic', turbo_permanent: true }) %>
+  <%= audio_tag('Treat.mp3', id: :treat_sound, data: { sound_target: 'treat', turbo_permanent: true }) %>
+  <%= audio_tag('Hole.mp3', id: :hole_sound, data: { sound_target: 'hole', turbo_permanent: true }) %>
+  <%= audio_tag('LevelUp.mp3', id: :level_up_sound, data: { sound_target: 'levelUp', turbo_permanent: true }) %>
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('<%= asset_path('media/background.png') %>');"></div>
   <div class="relative z-10 flex h-full">
     <%= render Current.game %>
