@@ -68,6 +68,11 @@ jobs:
       - name: Expose GitHub Runtime for cache
         uses: crazy-max/ghaction-github-runtime@v3
 
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Deploy with Kamal
         id: deploy
         run: bin/kamal deploy
