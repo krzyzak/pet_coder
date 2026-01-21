@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Sentry.init do |config|
-  config.dsn = Rails.application.credentials.sentry_key
+  config.dsn = Rails.application.credentials.sentry_key!
 
   config.breadcrumbs_logger = [:active_support_logger, :http_logger]
 
