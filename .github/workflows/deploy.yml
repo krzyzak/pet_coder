@@ -17,7 +17,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Send Slack notification - Deployment Started
-        uses: slackapi/slack-github-action@v2
+        uses: slackapi/slack-github-action@v3
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
@@ -103,7 +103,7 @@ jobs:
     if: success()
     steps:
       - name: Send Slack notification - Deployment Success
-        uses: slackapi/slack-github-action@v2
+        uses: slackapi/slack-github-action@v3
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
@@ -127,7 +127,7 @@ jobs:
     if: failure()
     steps:
       - name: Send Slack notification - Deployment Failed
-        uses: slackapi/slack-github-action@v2
+        uses: slackapi/slack-github-action@v3
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
